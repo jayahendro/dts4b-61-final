@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     Avatar,
     Box,
@@ -12,8 +12,27 @@ import {
     Typography
 } from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import {useNavigate} from "react-router-dom";
+import {signingUp} from "../components/utils/firebase/signup";
+import {signingIn} from "../components/utils/firebase/signin";
 
 const RegisterPage = () => {
+    const navigate = useNavigate()
+    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+
+    const signUp = async () => {
+        const response = await signingUp(email, password)
+        if (response.message === "Firebase: Error (auth/email-already-in-use).") {
+            navigate('/login')
+        } else {
+            localStorage.setItem('access_token', response.accessToken)
+            navigate('/')
+        }
+    }
+
     return (
         <div>
             <Container maxWidth="sm">
@@ -29,8 +48,7 @@ const RegisterPage = () => {
                     <Typography component="h1" variant="h5">
                         Register
                     </Typography>
-                    {/*onSubmit={handleSubmit}*/}
-                    <Box component="form" noValidate sx={{mt: 1}}>
+                    <Box noValidate sx={{mt: 1}}>
                         <TextField margin="normal"
                                    required
                                    fullWidth

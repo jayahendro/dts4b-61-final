@@ -21,7 +21,6 @@ const HomePage = () => {
     axios
       .get(
         `https://api.nytimes.com/svc/topstories/v2/technology.json?api-key=6zIrHoWJysSrtp26iKtuu07A6Lr5jtSO`
-        // `https://api.nytimes.com/svc/mostpopular/v2/emailed/7.json?api-key=ansPovFcUeYL58nxnXG6JxzPxsbdAKjL`
       )
       .then((res) => {
         setFeaturedNews(res.data.results);
